@@ -68,13 +68,11 @@ export default async function postMetadataToLedger(
     })
   )[0].signature;
 
-  console.log({
+  return {
     signaturesAddress: signaturesAddress.toBase58(),
     lastTxId,
     transactionsCount,
-  });
+  };
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// https://cnft.solidity.workers.dev/7EFH8Kqrb3rugQNJnzb7M1ZZLXBZeeeN4xnJZGWLnMRr?before=2tcTFTK7xgDJGLezf57KQ7etKTvfp57AQW3P762ja6LcPhc58CFxxE3b7La4hbUCjFHSWAb8JUHNKJN8kWpeZ5P8&count=105
