@@ -1,0 +1,17 @@
+{
+  "name": "Chad Toly",
+  "description": "cNFT that has metadata stored on the Solana ledger",
+  "symbol": "TOLY",
+  "external_url": "https://solana.com",
+  "seller_fee_basis_points": 0,
+  "attributes": [{ "trait_type": "Species", "value": "Chad" }],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://bafkreifjdv5ywguc4rbtrlho2ifivy7a4z7jstc7bk7tpy26koz5kj4ygy.ipfs.nftstorage.link",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}
