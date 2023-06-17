@@ -1,0 +1,22 @@
+[package]
+name = "onchain-cnfts"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "onchain_cnfts"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "0.26.0"
+spl-noop = { version = "0.1.3", features = ["no-entrypoint"]}
+getrandom = { version = "0.2.2", features = ["custom"] }
+solana-frozen-abi-macro = "=1.14.19"
