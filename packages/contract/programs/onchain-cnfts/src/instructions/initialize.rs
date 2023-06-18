@@ -3,7 +3,7 @@ use anchor_lang::{prelude::*, Discriminator};
 
 use crate::constants::METADATA_BUFFER_START;
 
-pub fn initialize(ctx: Context<Initialize>, _total_metadata_bytes: usize) -> Result<()> {
+pub fn initialize(ctx: Context<Initialize>, _total_metadata_bytes: u32) -> Result<()> {
     let metadata = Metadata {
         authority: ctx.accounts.authority.key(),
     };
@@ -19,14 +19,14 @@ pub fn initialize(ctx: Context<Initialize>, _total_metadata_bytes: usize) -> Res
 }
 
 #[derive(Accounts)]
-#[instruction(total_metadata_bytes: usize)]
+#[instruction(total_metadata_bytes: u32)]
 pub struct Initialize<'info> {
     /// CHECK: account constraints checked in account trait
     #[account(
         zero,
         rent_exempt = skip,
         constraint = metadata.to_account_info().owner == program_id
-            && metadata.to_account_info().data_len() >= METADATA_BUFFER_START + total_metadata_bytes
+            && metadata.to_account_info().data_len() >= METADATA_BUFFER_START + (total_metadata_bytes as usize)
     )]
     pub metadata: UncheckedAccount<'info>,
     pub authority: Signer<'info>,

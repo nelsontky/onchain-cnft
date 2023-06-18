@@ -1,10 +1,11 @@
 use crate::{constants::METADATA_BUFFER_START, state::Metadata};
 use anchor_lang::prelude::*;
 
-pub fn update(ctx: Context<Update>, index: usize, bytes: Vec<u8>) -> Result<()> {
+pub fn update(ctx: Context<Update>, index: u32, bytes: Vec<u8>) -> Result<()> {
     let account_info = ctx.accounts.metadata.to_account_info();
     let mut account_data = account_info.data.borrow_mut();
-    account_data[METADATA_BUFFER_START + index..METADATA_BUFFER_START + index + bytes.len()]
+    account_data[METADATA_BUFFER_START + (index as usize)
+        ..METADATA_BUFFER_START + (index as usize) + bytes.len()]
         .copy_from_slice(&bytes);
     Ok(())
 }

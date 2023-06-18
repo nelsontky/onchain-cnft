@@ -19,9 +19,7 @@ export type OnChainCnft = {
       "args": [
         {
           "name": "totalMetadataBytes",
-          "type": {
-            "defined": "usize"
-          }
+          "type": "u32"
         }
       ]
     },
@@ -42,9 +40,7 @@ export type OnChainCnft = {
       "args": [
         {
           "name": "index",
-          "type": {
-            "defined": "usize"
-          }
+          "type": "u32"
         },
         {
           "name": "bytes",
@@ -71,7 +67,20 @@ export type OnChainCnft = {
           "isSigner": false
         }
       ],
-      "args": []
+      "args": [
+        {
+          "name": "start",
+          "type": "u32"
+        },
+        {
+          "name": "end",
+          "type": "u32"
+        },
+        {
+          "name": "nextTxId",
+          "type": "string"
+        }
+      ]
     },
     {
       "name": "close",
@@ -127,9 +136,7 @@ export const IDL: OnChainCnft = {
       "args": [
         {
           "name": "totalMetadataBytes",
-          "type": {
-            "defined": "usize"
-          }
+          "type": "u32"
         }
       ]
     },
@@ -150,9 +157,7 @@ export const IDL: OnChainCnft = {
       "args": [
         {
           "name": "index",
-          "type": {
-            "defined": "usize"
-          }
+          "type": "u32"
         },
         {
           "name": "bytes",
@@ -179,7 +184,20 @@ export const IDL: OnChainCnft = {
           "isSigner": false
         }
       ],
-      "args": []
+      "args": [
+        {
+          "name": "start",
+          "type": "u32"
+        },
+        {
+          "name": "end",
+          "type": "u32"
+        },
+        {
+          "name": "nextTxId",
+          "type": "string"
+        }
+      ]
     },
     {
       "name": "close",
