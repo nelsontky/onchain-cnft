@@ -5,7 +5,8 @@
   "scripts": {
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
-    "deploy": "anchor deploy --provider.cluster $MAINNET_RPC --program-keypair target/deploy/onchain_cnfts-keypair.json --provider.wallet target/deploy/program-authority.json"
+    "deploy": "anchor deploy --provider.cluster $MAINNET_RPC --program-keypair target/deploy/onchain_cnfts-keypair.json --provider.wallet target/deploy/program-authority.json",
+    "publish": "anchor idl init --provider.cluster $MAINNET_RPC --provider.wallet target/deploy/program-authority.json cNFTxJQTzQsvVd1sy8GxUQKHLJeMEMsacJfvs3oeizr -f target/idl/on_chain_cnft.json"
   },
   "dependencies": {
     "@coral-xyz/anchor": "0.26.0"
