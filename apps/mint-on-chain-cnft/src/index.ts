@@ -21,6 +21,7 @@ import createMetadataAccount from "./utils/createMetadataAccount";
 import initializeMetadataAccount from "./utils/initializeMetadataAccount";
 import uploadMetadata from "./utils/uploadMetadata";
 import logMetadata from "./utils/logMetadata";
+import createTransaction from "./utils/createTransaction";
 
 const connection = new Connection(process.env.RPC_ENDPOINT!, "confirmed");
 const signer = Keypair.fromSecretKey(
@@ -59,16 +60,16 @@ const signer = Keypair.fromSecretKey(
   // const metadataFile = fs.readFileSync(
   //   path.join(__dirname, "..", "assets", "metadata.json")
   // );
-  // const metadata = JSON.parse(metadataFile.toString());
+  // const metadataJson = JSON.parse(metadataFile.toString());
   // const mintCnftInstruction = createMintCnftInstruction(
   //   {
-  //     name: metadata.name,
-  //     symbol: metadata.symbol,
+  //     name: metadataJson.name,
+  //     symbol: metadataJson.symbol,
 
   //     // this API will combine all the noop inputs of "transactionsCount" number of
   //     // transactions that includes the "signaturesAddress" account before and including
   //     // "lastTxId" into a single metadata file
-  //     uri: `https://cnft.sol-idity.com/${signaturesAddress}?latestTxId=${lastTxId}&count=${transactionsCount}`,
+  //     uri: `https://cnft.sol-idity.com/${txId}`,
   //     creators: [
   //       {
   //         address: signer.publicKey,
@@ -88,9 +89,8 @@ const signer = Keypair.fromSecretKey(
   //   signer
   // );
 
-  // const tx = new Transaction().add(mintCnftInstruction);
-  // tx.feePayer = signer.publicKey;
-  // const txId = await sendAndConfirmTransaction(connection, tx, [signer]);
+  // const tx = await createTransaction([mintCnftInstruction], signer, connection);
+  // const cnftTxId = await sendAndConfirmTransaction(connection, tx, [signer]);
 
-  // console.log(`cNFT minted in tx: https://xray.helius.xyz/tx/${txId}`);
+  // console.log(`cNFT minted in tx: https://xray.helius.xyz/tx/${cnftTxId}`);
 })();

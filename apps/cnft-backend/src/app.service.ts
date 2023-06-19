@@ -1,58 +1,44 @@
-import { Injectable } from "@nestjs/common";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { Connection } from "@solana/web3.js";
 import * as bs58 from "bs58";
-import { chunk } from "lodash";
 
-const LOAD_CHUNK_SIZE = 10;
+const MAX_TX_LINKED_LIST_LENGTH = 40;
 
 @Injectable()
 export class AppService {
-  async getMetadata(
-    signaturesAddress: string,
-    latestTxId: string,
-    count: number
-  ) {
+  async getMetadata(txId: string) {
     const connection = new Connection(process.env.RPC_ENDPOINT, "confirmed");
-    const signaturesForAddress = await connection.getSignaturesForAddress(
-      new PublicKey(signaturesAddress),
-      {
-        before: latestTxId,
-        limit: count - 1,
+    const jsonParts: string[] = [];
+
+    let txFetched = 0;
+    let nextTxId = txId;
+    while (nextTxId !== "NULL") {
+      if (++txFetched > MAX_TX_LINKED_LIST_LENGTH) {
+        throw new BadRequestException(
+          `Transactions linked list is too long, please do not use this service to fetch metadata for a cNFT with more than ${MAX_TX_LINKED_LIST_LENGTH} transactions`
+        );
       }
-    );
 
-    const signaturesToFetch = [
-      latestTxId,
-      ...signaturesForAddress.map(({ signature }) => signature),
-    ];
+      try {
+        const tx = await connection.getTransaction(nextTxId);
+        const logs = tx?.meta?.innerInstructions?.[0]?.instructions?.map(
+          ({ data }) => Buffer.from(bs58.decode(data)).toString("utf-8")
+        );
 
-    const chunkedSignaturesToFetch = chunk(signaturesToFetch, LOAD_CHUNK_SIZE);
-    const jsonParts: [number, string][] = [];
-    for (const chunk of chunkedSignaturesToFetch) {
-      const jsonPartsChunk = await Promise.all(
-        chunk.map(async (signature) => {
-          const transaction = await connection.getTransaction(signature);
-
-          if (!transaction) {
-            throw new Error(`Transaction not found: ${signature}`);
-          }
-
-          const firstIxData =
-            transaction.transaction.message.instructions[0].data;
-
-          const jsonPart = JSON.parse(
-            Buffer.from(bs58.decode(firstIxData)).toString("utf-8")
+        if (!logs) {
+          throw new BadRequestException(
+            "tx id does not follow the cNFT format"
           );
+        }
 
-          return jsonPart;
-        })
-      );
+        nextTxId = logs.pop();
 
-      jsonParts.push(...jsonPartsChunk);
+        jsonParts.push(...logs);
+      } catch {
+        throw new BadRequestException("tx id does not follow the cNFT format");
+      }
     }
 
-    const sortedJsonParts = jsonParts.sort(([a], [b]) => a - b);
-
-    return JSON.parse(sortedJsonParts.map(([, json]) => json).join(""));
+    return JSON.parse(jsonParts.join(""));
   }
 }

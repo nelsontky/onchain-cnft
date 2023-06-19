@@ -5,12 +5,8 @@ import { AppService } from "./app.service";
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get("/:signaturesAddress")
-  getMetadata(
-    @Param("signaturesAddress") signaturesAddress: string,
-    @Query("latestTxId") latestTxId: string,
-    @Query("count") count: string
-  ) {
-    return this.appService.getMetadata(signaturesAddress, latestTxId, +count);
+  @Get("/:txId")
+  getMetadata(@Param("txId") txId: string) {
+    return this.appService.getMetadata(txId);
   }
 }
