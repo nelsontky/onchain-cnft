@@ -73,7 +73,7 @@ const signer = Keypair.fromSecretKey(
         creators: [
           {
             address: signer.publicKey,
-            verified: false,
+            verified: true,
             share: 100,
           },
         ],
