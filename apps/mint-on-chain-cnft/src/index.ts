@@ -65,10 +65,6 @@ const signer = Keypair.fromSecretKey(
       {
         name: metadataJson.name,
         symbol: metadataJson.symbol,
-
-        // this API will combine all the noop inputs of "transactionsCount" number of
-        // transactions that includes the "signaturesAddress" account before and including
-        // "lastTxId" into a single metadata file
         uri: `https://cnft.sol-idity.com/${txId}`,
         creators: [
           {
