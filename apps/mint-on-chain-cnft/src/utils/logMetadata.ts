@@ -39,6 +39,7 @@ export default async function logMetadata(
       connection
     );
     nextTxId = await connection.sendRawTransaction(transaction.serialize());
+    await connection.confirmTransaction(nextTxId);
   }
 
   return nextTxId;
