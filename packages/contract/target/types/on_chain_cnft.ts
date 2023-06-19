@@ -78,7 +78,9 @@ export type OnChainCnft = {
         },
         {
           "name": "nextTxId",
-          "type": "string"
+          "type": {
+            "option": "string"
+          }
         }
       ]
     },
@@ -195,7 +197,9 @@ export const IDL: OnChainCnft = {
         },
         {
           "name": "nextTxId",
-          "type": "string"
+          "type": {
+            "option": "string"
+          }
         }
       ]
     },

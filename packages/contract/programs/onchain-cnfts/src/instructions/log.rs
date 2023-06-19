@@ -1,8 +1,12 @@
 use anchor_lang::{prelude::*, solana_program::program::invoke};
 
-use crate::{constants::{METADATA_BUFFER_START, BYTES_PER_CPI}, noop::Noop, state::Metadata};
+use crate::{
+    constants::{BYTES_PER_CPI, METADATA_BUFFER_START},
+    noop::Noop,
+    state::Metadata,
+};
 
-pub fn log(ctx: Context<Log>, start: u32, end: u32, next_tx_id: String) -> Result<()> {
+pub fn log(ctx: Context<Log>, start: u32, end: u32, next_tx_id: Option<String>) -> Result<()> {
     let account_info = ctx.accounts.metadata.to_account_info();
     let account_data = account_info.data.borrow();
 
@@ -21,7 +25,10 @@ pub fn log(ctx: Context<Log>, start: u32, end: u32, next_tx_id: String) -> Resul
 
     // log the next_tx_id, thus creating a linked list of transactions
     invoke(
-        &spl_noop::instruction(next_tx_id.as_bytes().to_vec()),
+        &spl_noop::instruction(match next_tx_id {
+            Some(next_tx_id) => next_tx_id.as_bytes().to_vec(),
+            None => b"NULL".to_vec(),
+        }),
         &[ctx.accounts.log_wrapper.to_account_info()],
     )?;
 

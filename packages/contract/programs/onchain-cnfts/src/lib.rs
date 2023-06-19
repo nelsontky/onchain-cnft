@@ -22,7 +22,7 @@ pub mod on_chain_cnft {
         instructions::update(ctx, index, bytes)
     }
 
-    pub fn log(ctx: Context<Log>, start: u32, end: u32, next_tx_id: String) -> Result<()> {
+    pub fn log(ctx: Context<Log>, start: u32, end: u32, next_tx_id: Option<String>) -> Result<()> {
         instructions::log(ctx, start, end, next_tx_id)
     }
 

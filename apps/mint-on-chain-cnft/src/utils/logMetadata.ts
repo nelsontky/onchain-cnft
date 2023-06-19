@@ -21,7 +21,7 @@ export default async function logMetadata(
   let nextTxId: string | null = null;
   for (const [start, end] of startAndEnds) {
     const instruction = await program.methods
-      .log(start, end, nextTxId ?? "NULL")
+      .log(start, end, nextTxId)
       .accounts({
         metadata: metadataAccount,
         authority: signer.publicKey,
