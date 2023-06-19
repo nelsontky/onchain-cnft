@@ -1,10 +1,9 @@
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
-import createNoopInstruction from "./createNoopInstruction";
 import createTransaction from "./createTransaction";
 import { chunk } from "lodash";
 import getProgram from "./getProgram";
 
-const PART_LENGTH = 900;
+const PART_LENGTH = 981;
 const TRANSACTION_CHUNK_SIZE = 6;
 
 export default async function uploadMetadata(

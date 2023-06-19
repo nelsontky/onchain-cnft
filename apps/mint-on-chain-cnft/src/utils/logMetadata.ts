@@ -19,7 +19,9 @@ export default async function logMetadata(
 
   const program = getProgram(connection, signer);
   let nextTxId: string | null = null;
-  for (const [start, end] of startAndEnds) {
+  for (let i = 0; i < startAndEnds.length; i++) {
+    console.log(`Logging ${i + 1}/${startAndEnds.length}`);
+    const [start, end] = startAndEnds[i];
     const instruction = await program.methods
       .log(start, end, nextTxId)
       .accounts({
